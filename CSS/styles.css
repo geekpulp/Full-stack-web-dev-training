@@ -1,0 +1,23 @@
+h1 {
+	color: #FF0000;
+/*	border-color: purple;
+	border-width: 5px;
+	border-style: solid;*/
+
+	border: 1px dashed black;
+}
+
+li {
+	color: orange;
+}
+
+h4 {
+	background: #F0F0F0;
+}
+
+body {
+/*	background: url(https://cdn.pixabay.com/photo/2016/07/14/09/04/texture-1516370_1280.jpg);
+	background-repeat: no-repeat;
+	background-size: cover;*/
+	background: pink;
+}
