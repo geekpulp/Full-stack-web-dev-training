@@ -1,0 +1,34 @@
+/* Star selector - this applies to all elements on the page.
+This isn't somethign you'll use often*/
+
+* {
+  border: 1px black solid;
+}
+
+/*Descendent selector - is applies to all elements that at decendent of the
+the elements specified. */
+
+li a {
+  color: red;
+}
+
+/* Adjacent selectors - this applies to elements that sit Adjacent to another
+element. To be clear not something nested, something next to it */
+
+h4 + ul {
+  border: 4px solid red;
+}
+
+/* attribute selector - this applies to all elements with the
+specified attributes */
+
+a[href="http://google.com"] {
+  background: blue;
+}
+
+/* nth of type - this applies to elements of the type specified by a number.
+for example: the third li, or the 10th p */
+
+li:nth-of-type(3) {
+  background: red;
+}
