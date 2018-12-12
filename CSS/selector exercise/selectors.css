@@ -3,7 +3,7 @@ DO NOT ALTER THE EXISTING HTML TO DO THIS.  WRITE ONLY CSS!
 
 /* Give the <body> element a background of #bdc3c7*/
 body {
-  color: #bdc3c7;
+  background: #bdc3c7;
 }
 
 /* Make the <h1> element #9b59b6*/
@@ -64,6 +64,7 @@ div:nth-of-type(3) p:nth-of-type(2) {
 /* Make the <em> in the 3rd <div> element white and 20px font(font-size:20px)*/
 div:nth-of-type(3) em {
   font-size: 20px;
+  color: white;
 }
 
 /*BONUS CHALLENGES*/
@@ -80,7 +81,8 @@ label {
 
 /*Make the first letter of the element with id 'special' green and 100px font size(font-size: 100)*/
 #special::first-letter {
-  font: green 100px;
+  font-size: 100px;
+  color: green;
 }
 
 /*Make the <h1> element's color change to blue when hovered over */
