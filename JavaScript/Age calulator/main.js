@@ -1,2 +1,3 @@
 var age = prompt("How old are you?");
-alert("Cool, that makes you " + age * 365 + " days old!" );
+var ageInDays = age * 365.25;
+alert("Cool, that makes you roughly " + ageInDays + " days old!" );
