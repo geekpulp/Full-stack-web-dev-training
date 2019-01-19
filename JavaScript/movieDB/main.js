@@ -15,10 +15,16 @@ var movies = [ {
     }
 ]
 
-movies.forEach( function ( element ) {
-    if ( element.hasWatched === true ) {
-        console.log( "You have watched " + element.title + " - " + element.rating + " stars" )
-    } else {
-        console.log( "You have not watched " + element.title + " - " + element.rating + " stars" )
-    }
+movies.forEach( function ( movie ) {
+    console.log( buildString( movie ) );
 } );
+
+function buildString( movie ) {
+    if ( movie.hasWatched === true ) {
+        var result = "You have watched " + movie.title + " - " + movie.rating + " stars";
+        return result;
+    } else {
+        var result = "You have not watched " + movie.title + " - " + movie.rating + " stars"
+        return result;
+    }
+}
