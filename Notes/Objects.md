@@ -90,3 +90,18 @@ There are three ways to create an object.
     person.name = "Alex";
     person.age = 21;
     person.city = "Palmerston North"
+
+## Example
+
+    var someObject = {
+        friends: [
+            {name: "Malfoy"},
+            {name: "Crabbbe"},
+            {name: "Goyle"}
+        ],
+        color: "baby blue",
+        isEvil: true
+    }
+
+    // Return Malfoy
+    someObject.friends[0].name;
