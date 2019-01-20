@@ -1,5 +1,7 @@
 # JavaScript Functions
+
 ## How to declare a function
+
 ### Declare a function
 
 ``` js
@@ -32,6 +34,7 @@
 ```
 
 ### The Return Keyword
+
 Return allows you to capture output of a function.
 
 ``` js
@@ -50,6 +53,7 @@ Return allows you to capture output of a function.
 Also important to remember return ends the function. so as soon as the return command is it nothing beyond it will run.
 
 ### Two ways to declare functions
+
 The first (and it seems to me the normal way) to declare a function is called a Function Declaration and it looks like this:
 
 ``` js

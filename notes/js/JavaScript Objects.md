@@ -1,5 +1,7 @@
 # JavaScript Objects
+
 ## Basics
+
 Every item in an object is a key value pair. They can hold any sort of data. Here's an example:
 
 ```js
@@ -11,7 +13,9 @@ Every item in an object is a key value pair. They can hold any sort of data. Her
 ```
 
 ## Retrieve data
+
 ### Different syntax
+
 To retrieve data from an object there are two ways of doing it:
 
 ```js
@@ -25,6 +29,7 @@ Or
 ```
 
 ### Numbers for names of key value pairs
+
 Personally I prefer the dot notation (the second option). One issue is that dot notation doesn't work if the items name contains a number. For example this is invalid:
 
 ```js
@@ -40,11 +45,13 @@ But this is valid:
 To work around this just make it best practice not to use numbers for the names of key value pairs.
 
 ### Spaces in names
+
 Spaces can be used in the naming of a key value pair, but similar to numbers in the names, this is not recommended.
 
 If there is a space in a name for some reason (like its someone else code you're working on) then you have to retrieve the data using bracket notation, not dot notation.
 
 ### lookup using a variable
+
 If you want to use a variable to lookup an object you must use bracket notation. For example:
 
 ```js
@@ -56,6 +63,7 @@ If you want to use a variable to lookup an object you must use bracket notation.
 ```
 
 ## Update data
+
 The concept is similar to an array, but rather than using a number to assign to one of the array slots, you use the name in the key value pair. For example:
 
 ```js
@@ -71,6 +79,7 @@ The concept is similar to an array, but rather than using a number to assign to 
 ```
 
 ## Creating objects
+
 There are three ways to create an object.
 
 ### Make and object then add to it
@@ -103,6 +112,7 @@ There are three ways to create an object.
 ```
 
 ## Create an object with an array
+
 ```js
 	var someObject = {
   		friends: [

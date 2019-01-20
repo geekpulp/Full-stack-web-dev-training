@@ -1,5 +1,7 @@
 # JavaScript Arrays
+
 ## Push and Pop
+
 **push** - adds an item to the end of an Array
 code looks like this:
 
@@ -21,6 +23,7 @@ code looks like this:
 In this example myArray will now equal "Anna", "Alex", "Emma" and the value "Glen" is stored in the name variable.
 
 ## Shift and Unshift
+
 **shift** - removes the first item from an array (it's basically the same as pop but at the other end of the array).
 
 The code looks like this:
@@ -44,12 +47,12 @@ In this example myArray will now equal "Anna", "Alex", "Emma".
 
 **indexOf** - used to find an item within an array. The code looks like this:
 
-```js 
+```js
 	var myArray = [ "Anna", "Alex", "Emma" ];
 	// This will return 2 as emma is in position 2
 	myArray.indexOf( "Emma" );
 	// This with return -1 because "Glen" isn't in the array
-	myArray.indexOf( "Glen" ); 
+	myArray.indexOf( "Glen" );
 ```
 
 **slice** - takes items from an array and puts them into a new array. Here's what the code looks like:
