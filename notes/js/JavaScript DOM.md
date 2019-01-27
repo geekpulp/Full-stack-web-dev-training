@@ -134,6 +134,24 @@ tag.innerHTML = "Blah <strong>blah</strong> blah blah";
 
 It’s important to note that for this to work you need to make sure the JavaScript runs after the HTML has loaded.
 
+## Attributes
+If you’re wanting to update (as in read or write) attributes like src or href we use the getAttribute() and setAttribute() functions like this:
+
+```html
+<a href = "http://www.google.com">I am a link</a>
+<img src="logo.png">
+```
+
+```js
+var link = document.querySelector( "a" );
+link.getAttribute( "href" ); // which returns "http://www.google.com"
+link.setAttribute( "href", "http://www.cake.com" );
+
+//The same thing works for changing the image
+var img = document.querySelector( "img" );
+img.setAttribute( "src", "bacon.png" );
+```
+
 ## The separation of concerns
 It’s important to note at this stage with HTML, CSS and JavaScript there is the concept of separation of concerns with these three languages. Each one plays a role in web development and it pays to remind ourselves what these roles are:
 
@@ -143,7 +161,7 @@ It’s important to note at this stage with HTML, CSS and JavaScript there is th
 
 There is some overlap between them, but this should be minimised wherever possible.
 
-![](JavaScript%20DOM/Screen%20Shot%202019-01-24%20at%207.07.04%20AM.png)
+![](JavaScript%20DOM/Screen%20Shot%202019-01-24%20at%207.07.04%20AM%202.png)
 
 A good example is while JavaScript can effect individual CSS styles it’s better practice to define classes in your CSS files and calling those classes from JavaScript.
 
