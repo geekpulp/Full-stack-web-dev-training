@@ -1,7 +1,7 @@
 var playerOneScore = 0,
     playerTwoScore = 0,
     maxScore = document.querySelector( "#maxScoreInput" ).value,
-    maxScoreDisplay = document.querySelector( "#maxScore" )
+    maxScoreDisplay = document.querySelector( "#maxScore" );
 
 var playerOneButton = document.querySelector( "#playerOneButton" );
 playerOneButton.addEventListener( "click", function () {
@@ -18,9 +18,14 @@ resetButton.addEventListener( "click", function () {
     reset();
 } );
 
+var maxScoreInput = document.querySelector( "#maxScoreInput" )
+maxScoreInput.addEventListener( "change", function () {
+    maxScore = maxScoreInput.value;
+} );
+
 function score( player, playerScore ) {
     console.log( "player score: " + playerScore + " max score: " + maxScore );
-    if ( playerScore === maxScore ) {
+    if ( playerScore == maxScore ) {
         alert( "Game over man, game over!" )
     } else {
         if ( player === "playerOne" ) {
