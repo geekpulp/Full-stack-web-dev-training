@@ -1,47 +1,72 @@
-var playerOneScore = 0,
-    playerTwoScore = 0,
-    maxScore = document.querySelector( "#maxScoreInput" ).value,
-    maxScoreDisplay = document.querySelector( "#maxScore" );
+playerOneButton = document.querySelector( "#playerOneButton" );
 
-var playerOneButton = document.querySelector( "#playerOneButton" );
 playerOneButton.addEventListener( "click", function () {
     score( "playerOne", playerOneScore )
 } );
 
 var playerTwoButton = document.querySelector( "#playerTwoButton" );
+
 playerTwoButton.addEventListener( "click", function () {
     score( "playerTwo", playerTwoScore )
 } );
 
 var resetButton = document.querySelector( "#resetButton" );
+
 resetButton.addEventListener( "click", function () {
     reset();
 } );
 
 var maxScoreInput = document.querySelector( "#maxScoreInput" )
+
 maxScoreInput.addEventListener( "change", function () {
-    maxScore = maxScoreInput.value;
+    setMaxScore( maxScoreInput.value );
 } );
 
+var playerOneScore = 0,
+    playerTwoScore = 0,
+    maxScore = 5;
+
 function score( player, playerScore ) {
-    console.log( "player score: " + playerScore + " max score: " + maxScore );
-    if ( playerScore == maxScore ) {
+    if ( playerScore === parseInt( maxScore, 10 ) ) {
         alert( "Game over man, game over!" )
     } else {
         if ( player === "playerOne" ) {
             playerOneScore += 1;
-            console.log( "Player One Score: " + playerOneScore );
+            updateScoreDisplay( player );
         } else {
             playerTwoScore += 1;
-            console.log( "Player Two Score: " + playerTwoScore );
+            updateScoreDisplay( player );
         }
     }
-    //check if the score is at the max score, if it is do nothing
-    //increase the player score by one
-    //update the display for player one by one then if it hits max score turn display green
 }
+
+
+maxScoreDisplay = document.querySelector( "#maxScore" );
+
+function setMaxScore( maxScoreValue ) {
+    maxScoreDisplay.textContent = maxScoreValue.toString();
+    maxScoreInput.value = maxScoreValue;
+    maxScore = maxScoreValue;
+}
+
+
+function updateScoreDisplay( player ) {
+    var playerOneScoreDisplay = document.querySelector( "#playerOneScore" );
+    var playerTwoScoreDisplay = document.querySelector( "#playerTwoScore" );
+    if ( player === "playerOne" ) {
+        console.log( "Player One Score: " + playerOneScore );
+        playerOneScoreDisplay.textContent = playerOneScore.toString();
+    } else {
+        console.log( "Player Two Score: " + playerTwoScore );
+        playerTwoScoreDisplay.textContent = playerTwoScore.toString();
+    }
+}
+
 
 function reset() {
     playerOneScore = 0;
     playerTwoScore = 0;
+    updateScoreDisplay( "playerOne" );
+    updateScoreDisplay( "playerTwo" );
+    setMaxScore( 5 );
 }
