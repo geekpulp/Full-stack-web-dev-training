@@ -1,13 +1,13 @@
 playerOneButton = document.querySelector( "#playerOneButton" );
 
 playerOneButton.addEventListener( "click", function () {
-    score( "playerOne", playerOneScore )
+    updateScore( "playerOne" )
 } );
 
 var playerTwoButton = document.querySelector( "#playerTwoButton" );
 
 playerTwoButton.addEventListener( "click", function () {
-    score( "playerTwo", playerTwoScore )
+    updateScore( "playerTwo" )
 } );
 
 var resetButton = document.querySelector( "#resetButton" );
@@ -16,43 +16,41 @@ resetButton.addEventListener( "click", function () {
     reset();
 } );
 
-var maxScoreInput = document.querySelector( "#maxScoreInput" )
+var maxScoreInput = document.querySelector( "#maxScoreInput" ),
+    maxScoreDisplay = document.querySelector( "#maxScore" );
 
 maxScoreInput.addEventListener( "change", function () {
     setMaxScore( maxScoreInput.value );
 } );
 
+function setMaxScore( maxScoreValue ) {
+    maxScoreDisplay.textContent = maxScoreValue.toString();
+    maxScoreInput.value = maxScoreValue;
+}
+
+
+
 var playerOneScore = 0,
     playerTwoScore = 0,
-    maxScore = 5;
+    playerOneScoreDisplay = document.querySelector( "#playerOneScore" ),
+    playerTwoScoreDisplay = document.querySelector( "#playerTwoScore" );
 
-function score( player, playerScore ) {
-    if ( playerScore === parseInt( maxScore, 10 ) ) {
+// update the score when someone clicks a button    
+function updateScore( player ) {
+    if ( gameOver() ) {
         alert( "Game over man, game over!" )
     } else {
         if ( player === "playerOne" ) {
             playerOneScore += 1;
-            updateScoreDisplay( player );
         } else {
             playerTwoScore += 1;
-            updateScoreDisplay( player );
         }
+        updateScoreDisplay( player );
     }
 }
 
-
-maxScoreDisplay = document.querySelector( "#maxScore" );
-
-function setMaxScore( maxScoreValue ) {
-    maxScoreDisplay.textContent = maxScoreValue.toString();
-    maxScoreInput.value = maxScoreValue;
-    maxScore = maxScoreValue;
-}
-
-
+// Updating the the display to of player score
 function updateScoreDisplay( player ) {
-    var playerOneScoreDisplay = document.querySelector( "#playerOneScore" );
-    var playerTwoScoreDisplay = document.querySelector( "#playerTwoScore" );
     if ( player === "playerOne" ) {
         console.log( "Player One Score: " + playerOneScore );
         playerOneScoreDisplay.textContent = playerOneScore.toString();
@@ -62,7 +60,12 @@ function updateScoreDisplay( player ) {
     }
 }
 
+// determines if the game is over or not
+function gameOver() {
+    return playerOneScore == maxScoreInput.value || playerTwoScore == maxScoreInput.value;
+}
 
+// Reset everything to the default
 function reset() {
     playerOneScore = 0;
     playerTwoScore = 0;
