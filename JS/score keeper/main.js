@@ -1,41 +1,30 @@
 playerOneButton = document.querySelector( "#playerOneButton" );
-
 playerOneButton.addEventListener( "click", function () {
     updateScore( "playerOne" )
 } );
 
 var playerTwoButton = document.querySelector( "#playerTwoButton" );
-
 playerTwoButton.addEventListener( "click", function () {
     updateScore( "playerTwo" )
 } );
 
 var resetButton = document.querySelector( "#resetButton" );
-
 resetButton.addEventListener( "click", function () {
     reset();
 } );
 
 var maxScoreInput = document.querySelector( "#maxScoreInput" ),
     maxScoreDisplay = document.querySelector( "#maxScore" );
-
 maxScoreInput.addEventListener( "change", function () {
     setMaxScore( maxScoreInput.value );
 } );
-
-function setMaxScore( maxScoreValue ) {
-    maxScoreDisplay.textContent = maxScoreValue.toString();
-    maxScoreInput.value = maxScoreValue;
-}
-
-
 
 var playerOneScore = 0,
     playerTwoScore = 0,
     playerOneScoreDisplay = document.querySelector( "#playerOneScore" ),
     playerTwoScoreDisplay = document.querySelector( "#playerTwoScore" );
 
-// update the score when someone clicks a button    
+// updates the score   
 function updateScore( player ) {
     if ( gameOver() ) {
         alert( "Game over man, game over!" )
@@ -46,6 +35,9 @@ function updateScore( player ) {
             playerTwoScore += 1;
         }
         updateScoreDisplay( player );
+        if ( gameOver() ) {
+            victory( player );
+        }
     }
 }
 
@@ -60,9 +52,23 @@ function updateScoreDisplay( player ) {
     }
 }
 
+// sets the max score of the game
+function setMaxScore( maxScoreValue ) {
+    maxScoreInput.value = maxScoreValue;
+    maxScoreDisplay.textContent = maxScoreValue.toString();
+}
+
 // determines if the game is over or not
 function gameOver() {
     return playerOneScore == maxScoreInput.value || playerTwoScore == maxScoreInput.value;
+}
+
+function victory( player ) {
+    if ( player === "playerOne" ) {
+        playerOneScoreDisplay.classList.toggle( "winner" );
+    } else {
+        playerTwoScoreDisplay.classList.toggle( "winner" );
+    }
 }
 
 // Reset everything to the default
