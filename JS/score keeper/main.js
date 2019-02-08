@@ -63,6 +63,7 @@ function gameOver() {
     return playerOneScore == maxScoreInput.value || playerTwoScore == maxScoreInput.value;
 }
 
+// change the color of the victors score to green
 function victory( player ) {
     if ( player === "playerOne" ) {
         playerOneScoreDisplay.classList.toggle( "winner" );
