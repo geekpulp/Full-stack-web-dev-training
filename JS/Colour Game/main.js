@@ -5,6 +5,7 @@ var pickedColour = pickRandomColour();
 var colourDisplay = document.querySelector( "#colourDisplay" );
 var messageDisplay = document.querySelector( "#message" )
 colourDisplay.textContent = pickedColour;
+var title = document.querySelector( "h1" );
 
 for ( let index = 0; index < squares.length; index++ ) {
     squares[ index ].style.backgroundColor = colours[ index ];
@@ -14,6 +15,7 @@ for ( let index = 0; index < squares.length; index++ ) {
         if ( clickedColour === pickedColour ) {
             messageDisplay.textContent = "Correct!";
             changeColours( clickedColour );
+            title.style.backgroundColor = clickedColour;
         } else {
             this.style.background = "#232323";
             messageDisplay.textContent = "Try again";
