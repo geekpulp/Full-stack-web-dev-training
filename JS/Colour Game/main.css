@@ -24,3 +24,11 @@ h1 {
     height: 30px;
     text-align: center;
 }
+
+.selectedButton {
+    background-color: blue;
+}
+
+.easy {
+    display: none;
+}
