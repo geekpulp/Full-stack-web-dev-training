@@ -10,6 +10,15 @@ var newColourButton = document.querySelector( "#newColourButton" );
 
 var easyButton = document.querySelector( "#easyButton" );
 easyButton.addEventListener( "click", function () {
+  playEasy();
+} );
+
+var hardButton = document.querySelector( "#hardButton" );
+hardButton.addEventListener( "click", function () {
+  playHard();
+} );
+
+function playEasy() {
   difficulty = 3;
   easyButton.classList.add( "selectedButton" );
   hardButton.classList.remove( "selectedButton" );
@@ -23,10 +32,9 @@ easyButton.addEventListener( "click", function () {
       squares[ index ].style.display = "none";
     }
   }
-} );
+}
 
-var hardButton = document.querySelector( "#hardButton" );
-hardButton.addEventListener( "click", function () {
+function playHard() {
   difficulty = 6;
   easyButton.classList.remove( "selectedButton" );
   hardButton.classList.add( "selectedButton" );
@@ -37,7 +45,7 @@ hardButton.addEventListener( "click", function () {
     squares[ index ].style.background = colours[ index ];
     squares[ index ].style.display = "block";
   }
-} );
+}
 
 newColourButton.addEventListener( "click", function () {
   loadTheBoard();
@@ -101,6 +109,11 @@ function randomColour() {
 
 // loads the board with fresh colours ad resets the display to match
 function loadTheBoard() {
+  if ( easyButton.classList.contains( "selectedButton" ) ) {
+    playEasy();
+  } else {
+    playHard();
+  }
   pickedColour = pickRandomColour();
   changeSquaresToRandomColours( colours );
   colourDisplay.textContent = pickedColour;
