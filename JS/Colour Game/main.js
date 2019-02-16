@@ -9,12 +9,12 @@ var title = document.querySelector( "h1" );
 var newColourButton = document.querySelector( "#newColourButton" );
 
 var easyButton = document.querySelector( "#easyButton" );
-easyButton.addEventListener( "click", function () {
+easyButton.addEventListener( "click", function() {
   playEasy();
 } );
 
 var hardButton = document.querySelector( "#hardButton" );
-hardButton.addEventListener( "click", function () {
+hardButton.addEventListener( "click", function() {
   playHard();
 } );
 
@@ -47,14 +47,14 @@ function playHard() {
   }
 }
 
-newColourButton.addEventListener( "click", function () {
+newColourButton.addEventListener( "click", function() {
   loadTheBoard();
 } );
 
 loadTheBoard();
 for ( let index = 0; index < squares.length; index++ ) {
   squares[ index ].style.backgroundColor = colours[ index ];
-  squares[ index ].addEventListener( "click", function () {
+  squares[ index ].addEventListener( "click", function() {
     var clickedColour = this.style.backgroundColor;
     console.log( clickedColour + " vs " + pickedColour );
     if ( clickedColour === pickedColour ) {
