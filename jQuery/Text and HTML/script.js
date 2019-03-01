@@ -1,5 +1,7 @@
 $( 'img' ).css( 'width', 500 );
 console.log( "bananas" );
-$( "img" ).on( "click", function() {
-  $( this ).fadeOut( 1000 );
+$( "h1" ).on( "click", function() {
+  $( "img" ).slideToggle( 1000, function() {
+    // $( this ).remove();
+  } );
 } );
