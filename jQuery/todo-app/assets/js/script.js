@@ -11,6 +11,7 @@ $( "ul" ).on( "click", "span", function ( event ) {
     event.stopPropagation();
 } );
 
+// when the user presses enter a new item is added to the todo list
 $( "input[type='text']" ).keypress( function ( event ) {
     if ( event.which === 13 ) {
         var todoItem = $( this ).val();
