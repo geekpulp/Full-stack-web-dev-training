@@ -13,7 +13,7 @@ app.get( "/bye", function( request, response ) {
 
 // "/dog" => "MEOW!"
 app.get( "/dog", function( request, response ) {
-  response.send( "Woof!" );
+  response.send( "WOOF!" );
 } )
 
 app.get( "/cat", function( request, response ) {
