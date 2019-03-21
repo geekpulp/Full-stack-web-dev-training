@@ -4,7 +4,7 @@ var express = require( "express" );
 var app = express();
 
 app.get( "/", function( request, response ) {
-  response.send( "Hi there, welcome to my assignment!" );
+  response.send( "Hi there, welcome to my exercise!" );
 } )
 
 app.get( "/speak/:animal", function( request, response ) {
@@ -33,8 +33,8 @@ app.get( "/repeat/:wordToRepeat/:numberOfTimesToRepeat", function( request, resp
 } )
 
 app.get( "/blog/:date/:title/", function( request, response ) {
-  var blogPostDate = request.params.date;
-  var blogPostTitle = request.params.title;
+  const blogPostDate = request.params.date;
+  const blogPostTitle = request.params.title;
   response.send( blogPostTitle + " Published " + blogPostDate );
 } )
 
