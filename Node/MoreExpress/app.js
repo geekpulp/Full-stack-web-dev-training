@@ -14,6 +14,25 @@ app.get( "/fallinlovewith/:thing", function( request, response ) {
   } );
 } );
 
+app.get( "/posts", function( request, response ) {
+  let posts = [ {
+      title: "JS and you",
+      Author: "Glen Young"
+    },
+    {
+      title: "Harry Potter",
+      Author: "Emma Young"
+    },
+    {
+      title: "Ben Ten a the wonders of Netflix",
+      Author: "Alex Young"
+    },
+  ]
+  response.render( "posts.ejs", {
+    posts: posts
+  } );
+} );
+
 app.get( "*", function( request, response ) {
   response.send( "Splat!" );
 } )
