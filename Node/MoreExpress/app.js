@@ -4,9 +4,19 @@ var express = require( "express" );
 var app = express();
 
 app.get( "/", function( request, response ) {
-  response.send( "Welcome to the desert of the real" );
-} )
+  response.render( "home.ejs" );
+} );
 
+app.get( "/fallinlovewith/:thing", function( request, response ) {
+  let thing = request.params.thing
+  response.render( "love.ejs", {
+    thingVar: thing
+  } );
+} );
+
+app.get( "*", function( request, response ) {
+  response.send( "Splat!" );
+} )
 
 // Tells express to listen for requests (Start server)
 
