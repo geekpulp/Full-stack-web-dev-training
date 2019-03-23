@@ -3,13 +3,16 @@
 var express = require( "express" );
 var app = express();
 
+app.use( express.static( "public" ) );
+app.set( "view engine", "ejs" );
+
 app.get( "/", function( request, response ) {
-  response.render( "home.ejs" );
+  response.render( "home" );
 } );
 
 app.get( "/fallinlovewith/:thing", function( request, response ) {
   let thing = request.params.thing
-  response.render( "love.ejs", {
+  response.render( "love", {
     thingVar: thing
   } );
 } );
@@ -28,7 +31,7 @@ app.get( "/posts", function( request, response ) {
       Author: "Alex Young"
     },
   ]
-  response.render( "posts.ejs", {
+  response.render( "posts", {
     posts: posts
   } );
 } );
