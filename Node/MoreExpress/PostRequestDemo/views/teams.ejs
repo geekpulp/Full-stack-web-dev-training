@@ -1,0 +1,10 @@
+<h1>teams go here</h1>
+
+<% teams.forEach(function(team){ %>
+  <li><%= team %></li>
+<% }); %>
+
+<form action="/addteam" method="POST">
+  <input type="text" placeholder="name" name="newTeam">
+  <button>Add team</button>
+</form>
