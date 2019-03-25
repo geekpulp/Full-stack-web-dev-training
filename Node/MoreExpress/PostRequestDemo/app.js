@@ -3,7 +3,11 @@
 var express = require( "express" );
 var app = express();
 var bodyParser = require( "body-parser" );
+let teams = [ "Planning and Transformation", "Digital", "Application Development", "Application Support", "Infrustcture", "Service Desk", "Business Systems Support", "Architecture" ];
 
+app.use( bodyParser.urlencoded( {
+  extended: true
+} ) );
 app.set( "view engine", "ejs" );
 
 app.get( "/", function( request, response ) {
@@ -11,15 +15,15 @@ app.get( "/", function( request, response ) {
 } )
 
 app.get( "/teams", function( request, response ) {
-  let teams = [ "Planning and Transformation", "Digital", "Application Development", "Application Support", "Infrustcture", "Service Desk", "Business Systems Support", "Architecture" ];
   response.render( "teams", {
     teams: teams
   } );
 } )
 
 app.post( "/addteam", function( request, response ) {
-  console.log( request.body );
-  response.send( "You have reached the post route" )
+  let newTeam = request.body.newTeam;
+  teams.push( newTeam );
+  response.redirect( "/teams" );
 } );
 
 app.get( "*", function( request, response ) {
