@@ -1,21 +1,35 @@
 "use strict"
 
-var express = require( "express" );
-var app = express();
-var bodyParser = require( 'body-parser' );
-let campgrounds = [ {
-  name: "Palmerston North Holiday Park",
-  image: "https://www.holidayparks.co.nz/sites/default/files/styles/park_gallery/public/parks/Palm%20North%20Holiday%20Park%20004.jpg"
-}, {
-  name: "Feilding Holiday Park",
-  image: "https://cdn.tribalogic.net/uploads/0e/435036-feilding-holiday-park-1.jpg"
-}, {
-  name: "Himatangi Holiday Park",
-  image: "https://www.holidayparks.co.nz/sites/default/files/styles/park_gallery/public/parks/Camp%20photo%20from%20airplane.jpg"
-}, {
-  name: "Foxton Beach Top 10 Holiday Park",
-  image: "https://media-cdn.tripadvisor.com/media/photo-s/04/2c/a5/fc/foxton-beach-motor-camp.jpg"
-} ];
+const express = require( "express" ),
+  app = express(),
+  bodyParser = require( 'body-parser' ),
+  mongoose = require( "mongoose" )
+
+mongoose.connect( "mongodb://localhost/yelp-camp", {
+  useNewUrlParser: true
+} );
+
+// Schema setup
+const campgroundSchema = new mongoose.Schema( {
+  name: String,
+  image: String
+} );
+
+const Campground = mongoose.model( "Campground", campgroundSchema );
+
+// Campground.create( {
+//     name: "Foxton Beach Top 10 Holiday Park",
+//     image: "https://media-cdn.tripadvisor.com/media/photo-s/04/2c/a5/fc/foxton-beach-motor-camp.jpg"
+//   },
+//   function( error, campground ) {
+//     if ( error ) {
+//       console.log( error );
+//     } else {
+//       console.log( "Boom we have a campground" );
+//       console.log( campground );
+//     }
+//   }
+// )
 
 app.use( bodyParser.urlencoded( {
   extended: true
@@ -27,8 +41,14 @@ app.get( "/", function( req, res ) {
 } );
 
 app.get( "/campgrounds", function( req, res ) {
-  res.render( "campgrounds", {
-    campgrounds: campgrounds
+  Campground.find( {}, function( error, allCampgrounds ) {
+    if ( error ) {
+      console.log( error );
+    } else {
+      res.render( "campgrounds", {
+        campgrounds: allCampgrounds
+      } );
+    }
   } );
 } );
 
@@ -40,9 +60,15 @@ app.post( "/campgrounds", function( req, res ) {
     name: name,
     image: image
   }
-  campgrounds.push( newCampground );
-  // redirect back to campgrounds
-  res.redirect( "/campgrounds" );
+  Campground.create( newCampground, function( error, newlyCreated ) {
+    if ( error ) {
+      console.log( error );
+    } else {
+      // redirect back to campgrounds
+      res.redirect( "/campgrounds" );
+    }
+  } )
+
 } );
 
 app.get( "/campgrounds/new", function( req, res ) {
