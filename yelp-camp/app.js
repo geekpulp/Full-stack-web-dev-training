@@ -12,24 +12,11 @@ mongoose.connect( "mongodb://localhost/yelp-camp", {
 // Schema setup
 const campgroundSchema = new mongoose.Schema( {
   name: String,
-  image: String
+  image: String,
+  description: String
 } );
 
 const Campground = mongoose.model( "Campground", campgroundSchema );
-
-// Campground.create( {
-//     name: "Foxton Beach Top 10 Holiday Park",
-//     image: "https://media-cdn.tripadvisor.com/media/photo-s/04/2c/a5/fc/foxton-beach-motor-camp.jpg"
-//   },
-//   function( error, campground ) {
-//     if ( error ) {
-//       console.log( error );
-//     } else {
-//       console.log( "Boom we have a campground" );
-//       console.log( campground );
-//     }
-//   }
-// )
 
 app.use( bodyParser.urlencoded( {
   extended: true
@@ -40,25 +27,29 @@ app.get( "/", function( req, res ) {
   res.render( "landing" );
 } );
 
+//INDEX - Restful route shows all campgrounds
 app.get( "/campgrounds", function( req, res ) {
   Campground.find( {}, function( error, allCampgrounds ) {
     if ( error ) {
       console.log( error );
     } else {
-      res.render( "campgrounds", {
+      res.render( "index", {
         campgrounds: allCampgrounds
       } );
     }
   } );
 } );
 
+//CREATE - Restful route create new campground
 app.post( "/campgrounds", function( req, res ) {
-  // get data from form and add back to campgound array
+  // get data from form and add back to campground array
   const name = req.body.name;
   const image = req.body.image;
+  const description = req.body.description;
   const newCampground = {
     name: name,
-    image: image
+    image: image,
+    description: description
   }
   Campground.create( newCampground, function( error, newlyCreated ) {
     if ( error ) {
@@ -71,8 +62,24 @@ app.post( "/campgrounds", function( req, res ) {
 
 } );
 
+//NEW - Restful route shows form to create new campground
 app.get( "/campgrounds/new", function( req, res ) {
   res.render( "new" );
+} );
+
+
+//SHOW - Restful route which shows a specific campground
+app.get( "/campgrounds/:id", function( req, res ) {
+  Campground.findById( req.params.id, function( error, foundCampground ) {
+    if ( error ) {
+      console.log( error );
+    } else {
+      res.render( "show", {
+        campground: foundCampground
+      } );
+    }
+  } );
+
 } );
 
 app.get( "*", function( req, res ) {
@@ -81,6 +88,6 @@ app.get( "*", function( req, res ) {
 
 // Tells express to listen for requests (Start server)
 
-app.listen( 3000, function() {
-  console.log( "The server started on http://localhost:3000/" );
+app.listen( 3001, function() {
+  console.log( "The server started on http://localhost:3001/" );
 } );
