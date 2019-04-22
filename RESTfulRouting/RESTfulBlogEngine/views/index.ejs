@@ -1,32 +1,17 @@
-<!DOCTYPE html>
-<html lang="en">
+<% include ./partials/header %>
 
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title></title>
-  <link rel="stylesheet" type="text/css" media="screen" href="assets/css/style.css" />
+<h1>Blogs</h1>
 
-</head>
+<%blogs.forEach(function(blog){%>
+<div>
+  <h2>
+    <%=blog.title%>
+  </h2>
+  <img src="<%=blog.image%>" alt="">
+  <span>
+    <%=blog.create%></span>
+  <p><%=blog.body%></p>
+</div>
+<% })%>
 
-<body>
-
-  <h1>Blogs</h1>
-
-  <%blogs.forEach(function(blog){%>
-  <div>
-    <h2>
-      <%=blog.title%>
-    </h2>
-    <img src="<%=blog.image%>" alt="">
-    <span>
-      <%=blog.create%></span>
-    <p><%=blog.body%></p>
-  </div>
-  <% })%>
-
-  <script type="text/javascript" src="assets/js/script.js" charset="utf-8"></script>
-</body>
-
-</html>
+<% include ./partials/footer %>
