@@ -1,9 +1,7 @@
 <% include ./partials/header %>
 
-<% blogs.forEach(function(blog){ %>
 <div class="ui main text container segment">
   <div class="ui huge header">
-    <h1>Blogs</h1>
     <h2>
       <%= blog.title %>
     </h2>
@@ -12,9 +10,7 @@
       <%= blog.created %>
     </span>
     <p><%= blog.body %></p>
-    <a href="/blogs/<%= blog._id %>">Read More</a>
   </div>
 </div>
-<% }); %>
 
 <% include ./partials/footer %>
