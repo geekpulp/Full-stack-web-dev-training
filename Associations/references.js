@@ -3,64 +3,48 @@ const mongoose = require( "mongoose" );
 
 mongoose.connect( "mongodb://localhost/blog_demo_2" );
 
-//POST - title, content
-
-const postSchema = new mongoose.Schema( {
-  title: String,
-  content: String
-} )
-
+var Post = require( "./models/post.js" );
+var User = require( "./models/user.js" );
 //USER - email, name
 
-const userSchema = new mongoose.Schema( {
-  email: String,
-  name: String,
-  posts: [ {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "Post"
-  } ]
-} );
-
-const User = mongoose.model( "User", userSchema );
 
 
 
-const Post = mongoose.model( "Post", postSchema );
 
-User.findOne( {
-  email: "emma@geekpulp.co.nz"
-} ).populate( "post" ).exec( function( err, user ) {
-  if ( err ) {
-    console.log( err );
-  } else {
-    console.log( user );
-  }
-} );
-
-
-
-// Post.create( {
-//   title: "How to cook the best burger pt. 4",
-//   content: "bfdg/lvlndfklfvnkldbjskvbjs"
-// }, function( err, post ) {
-//   User.findOne( {
-//     email: "emma@geekpulp.co.nz"
-//   }, function( err, foundUser ) {
-//     if ( err ) {
-//       console.log( err );
-//     } else {
-//       foundUser.posts.push( post );
-//       foundUser.save( function( err, data ) {
-//         if ( err ) {
-//           console.log( err );
-//         } else {
-//           console.log( data );
-//         }
-//       } )
-//     }
-//   } )
-//   console.log( post );
+// User.findOne( {
+//   email: "emma@geekpulp.co.nz"
+// } ).populate( "post" ).exec( function( err, user ) {
+//   if ( err ) {
+//     console.log( err );
+//   } else {
+//     console.log( user );
+//   }
 // } );
+
+
+
+Post.create( {
+  title: "How to cook the best burger pt. 44",
+  content: "Yeah yeah yeah yeah"
+}, function( err, post ) {
+  User.findOne( {
+    email: "emma@geekpulp.co.nz"
+  }, function( err, foundUser ) {
+    if ( err ) {
+      console.log( err );
+    } else {
+      foundUser.posts.push( post );
+      foundUser.save( function( err, data ) {
+        if ( err ) {
+          console.log( err );
+        } else {
+          console.log( data );
+        }
+      } )
+    }
+  } )
+  console.log( post );
+} );
 
 
 // User.create( {
