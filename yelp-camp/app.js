@@ -17,7 +17,7 @@ app.use( bodyParser.urlencoded( {
 app.set( "view engine", "ejs" );
 
 app.get( "/", function( req, res ) {
-  res.render( "landing" );
+  res.redirect( "/campgrounds" );
 } );
 
 //seedDB();
@@ -88,11 +88,10 @@ app.get( "/campgrounds/:id/comments/new", function( req, res ) {
         console.log( error );
       } else {
         res.render( "comments/new", {
-          campground: campground
+          campground: foundCampground
         } );
       }
     }
-
 } );
 
 //================
