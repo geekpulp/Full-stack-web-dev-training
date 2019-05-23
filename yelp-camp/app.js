@@ -20,7 +20,7 @@ app.get( "/", function( req, res ) {
   res.redirect( "/campgrounds" );
 } );
 
-//seedDB();
+seedDB();
 
 //INDEX - Restful route shows all campgrounds
 app.get( "/campgrounds", function( req, res ) {
@@ -82,16 +82,16 @@ app.get( "/campgrounds/:id", function( req, res ) {
 //================
 
 app.get( "/campgrounds/:id/comments/new", function( req, res ) {
-  Campground.findById( req.params.id ),
-    function( error, foundCampground ) {
+  Campground.findById( req.params.id,
+    function( error, campground ) {
       if ( error ) {
         console.log( error );
       } else {
         res.render( "comments/new", {
-          campground: foundCampground
+          campground: campground
         } );
       }
-    }
+    } );
 } );
 
 //================
