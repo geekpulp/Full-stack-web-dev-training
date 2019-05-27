@@ -5,6 +5,7 @@ const express = require( "express" ),
   bodyParser = require( 'body-parser' ),
   mongoose = require( "mongoose" ),
   Campground = require( "./models/campground" ),
+  Comment = require( "./models/comment" ),
   seedDB = require( "./seeds" )
 
 mongoose.connect( "mongodb://localhost/yelp-camp", {
@@ -74,7 +75,6 @@ app.get( "/campgrounds/:id", function( req, res ) {
       } );
     }
   } );
-
 } );
 
 //================
@@ -94,9 +94,26 @@ app.get( "/campgrounds/:id/comments/new", function( req, res ) {
     } );
 } );
 
-//================
-//LIKES SUB ROUTES
-//================
+app.post( "/campgrounds/:id/comments", function( req, res ) {
+  Campground.findById( req.params.id,
+    function( error, campground ) {
+      if ( error ) {
+        console.log( error );
+        res.redirect( "/campgrounds/:id/" );
+      } else {
+        Comment.create( req.body.comment, function( error, comment ) {
+          if ( error ) {
+            console.log( error );
+          } else {
+            campground.comments.push( comment );
+            campground.save();
+            res.redirect( "/campgrounds/" + campground._id );
+          }
+        } );
+      }
+    } );
+} );
+
 
 app.get( "*", function( req, res ) {
   res.send( "404 page not found" );
