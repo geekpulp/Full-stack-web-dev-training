@@ -3,29 +3,24 @@
 const express = require( "express" ),
   app = express(),
   bodyParser = require( 'body-parser' ),
-  mongoose = require( "mongoose" )
+  mongoose = require( "mongoose" ),
+  Campground = require( "./models/campground" ),
+  Comment = require( "./models/comment" ),
+  seedDB = require( "./seeds" )
 
 mongoose.connect( "mongodb://localhost/yelp-camp", {
   useNewUrlParser: true
 } );
 
-// Schema setup
-const campgroundSchema = new mongoose.Schema( {
-  name: String,
-  image: String,
-  description: String
-} );
-
-const Campground = mongoose.model( "Campground", campgroundSchema );
-
 app.use( bodyParser.urlencoded( {
   extended: true
 } ) );
 app.set( "view engine", "ejs" );
-
 app.get( "/", function( req, res ) {
-  res.render( "landing" );
+  res.redirect( "/campgrounds" );
 } );
+app.use( express.static( __dirname + "/public" ) );
+seedDB();
 
 //INDEX - Restful route shows all campgrounds
 app.get( "/campgrounds", function( req, res ) {
@@ -33,7 +28,7 @@ app.get( "/campgrounds", function( req, res ) {
     if ( error ) {
       console.log( error );
     } else {
-      res.render( "index", {
+      res.render( "campgrounds/index", {
         campgrounds: allCampgrounds
       } );
     }
@@ -64,23 +59,60 @@ app.post( "/campgrounds", function( req, res ) {
 
 //NEW - Restful route shows form to create new campground
 app.get( "/campgrounds/new", function( req, res ) {
-  res.render( "new" );
+  res.render( "campgrounds/new" );
 } );
 
 
 //SHOW - Restful route which shows a specific campground
 app.get( "/campgrounds/:id", function( req, res ) {
-  Campground.findById( req.params.id, function( error, foundCampground ) {
+  Campground.findById( req.params.id ).populate( "comments" ).exec( function( error, foundCampground ) {
     if ( error ) {
       console.log( error );
     } else {
-      res.render( "show", {
+      res.render( "campgrounds/show", {
         campground: foundCampground
       } );
     }
   } );
-
 } );
+
+//================
+//COMMENTS SUB ROUTES
+//================
+
+app.get( "/campgrounds/:id/comments/new", function( req, res ) {
+  Campground.findById( req.params.id,
+    function( error, campground ) {
+      if ( error ) {
+        console.log( error );
+      } else {
+        res.render( "comments/new", {
+          campground: campground
+        } );
+      }
+    } );
+} );
+
+app.post( "/campgrounds/:id/comments", function( req, res ) {
+  Campground.findById( req.params.id,
+    function( error, campground ) {
+      if ( error ) {
+        console.log( error );
+        res.redirect( "/campgrounds/:id/" );
+      } else {
+        Comment.create( req.body.comment, function( error, comment ) {
+          if ( error ) {
+            console.log( error );
+          } else {
+            campground.comments.push( comment );
+            campground.save();
+            res.redirect( "/campgrounds/" + campground._id );
+          }
+        } );
+      }
+    } );
+} );
+
 
 app.get( "*", function( req, res ) {
   res.send( "404 page not found" );
