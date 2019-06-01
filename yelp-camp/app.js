@@ -16,11 +16,10 @@ app.use( bodyParser.urlencoded( {
   extended: true
 } ) );
 app.set( "view engine", "ejs" );
-
 app.get( "/", function( req, res ) {
   res.redirect( "/campgrounds" );
 } );
-
+app.use( express.static( __dirname + "/public" ) );
 seedDB();
 
 //INDEX - Restful route shows all campgrounds
