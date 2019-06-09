@@ -33,6 +33,7 @@ app.use( passport.session() );
 
 passport.serializeUser( User.serializeUser() );
 passport.deserializeUser( User.deserializeUser() );
+passport.use( new localStrategy( User.authenticate() ) );
 
 // =====================
 // ROUTES
@@ -49,6 +50,9 @@ app.get( "/secret", function( req, res ) {
 // =====================
 // Autentication routes
 // =====================
+
+
+// register ROUTES
 
 app.get( "/register", function( req, res ) {
   res.render( "register" );
@@ -69,6 +73,19 @@ app.post( "/register", function( req, res ) {
       } );
     }
   } );
+} );
+
+// login ROUTES
+
+app.get( "/login", function( req, res ) {
+  res.render( "login" );
+} );
+
+app.post( "/login", passport.authenticate( "local", {
+  successRedirect: "/secret",
+  failureRedirect: "/login"
+} ), function( req, res ) {
+
 } );
 
 app.get( "*", function( req, res ) {
