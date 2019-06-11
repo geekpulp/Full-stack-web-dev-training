@@ -43,7 +43,7 @@ app.get( "/", function( req, res ) {
   res.render( "home" );
 } );
 
-app.get( "/secret", function( req, res ) {
+app.get( "/secret", isLoggedIn, function( req, res ) {
   res.render( "secret" );
 } );
 
@@ -75,7 +75,7 @@ app.post( "/register", function( req, res ) {
   } );
 } );
 
-// login ROUTES
+// Authentication ROUTES
 
 app.get( "/login", function( req, res ) {
   res.render( "login" );
@@ -87,6 +87,21 @@ app.post( "/login", passport.authenticate( "local", {
 } ), function( req, res ) {
 
 } );
+
+
+app.get ("/logout", function( req, res ) {
+  req.logout();
+  res.redirect("/");
+} );
+
+
+//middleware that checks authenticated state. This allows us to check if the user is logged in and if so show secrect content.
+function isLoggedIn( req, res, next) {
+  if (req.isAuthenticated()){
+    return next();
+  } 
+  res.redirect("/login");
+}
 
 app.get( "*", function( req, res ) {
   res.send( "404 page not found" );
