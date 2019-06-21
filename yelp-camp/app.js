@@ -25,6 +25,26 @@ app.get( "/", function( req, res ) {
 app.use( express.static( __dirname + "/public" ) );
 seedDB();
 
+// ============================================================================
+// Passport configuration
+// ============================================================================
+
+app.use( require( "express-session" )( {
+  secret: "This will be amazing if we let it be",
+  resave: false,
+  saveUnitialized: false
+} ) );
+app.use( passport.initialize() );
+app.use( passport.session() );
+passport.use( new LocalStrategy( User.authenticate() ) );
+passport.serializeUser( User.serializeUser() );
+passport.deserializeUser( User.deserializeUser() );
+
+// ============================================================================
+// Routes
+// ============================================================================
+
+
 //INDEX - Restful route shows all campgrounds
 app.get( "/campgrounds", function( req, res ) {
   Campground.find( {}, function( error, allCampgrounds ) {
@@ -79,9 +99,9 @@ app.get( "/campgrounds/:id", function( req, res ) {
   } );
 } );
 
-//================
-//COMMENTS SUB ROUTES
-//================
+// ============================================================================
+// Comment routes
+// ============================================================================
 
 app.get( "/campgrounds/:id/comments/new", function( req, res ) {
   Campground.findById( req.params.id,
@@ -116,6 +136,34 @@ app.post( "/campgrounds/:id/comments", function( req, res ) {
     } );
 } );
 
+// ============================================================================
+// Auth routes
+// ============================================================================
+
+//show reg form
+app.get( "/register", function( req, res ) {
+  res.render( "register" );
+} );
+
+//handel sign up
+app.post( "/register", function( req, res ) {
+  var newUser = new User( {
+    username: req.body.username
+  } );
+  User.register( newUser, req.body.password, function( err, user ) {
+    if ( err ) {
+      console.log( err );
+      return res.render( "register" );
+    }
+    passport.authenticate( "local" )( req, res, function() {
+      res.redirect( "/campgrounds" );
+    } );
+  } );
+} );
+
+// ============================================================================
+// Catch all routes
+// ============================================================================
 
 app.get( "*", function( req, res ) {
   res.send( "404 page not found" );
