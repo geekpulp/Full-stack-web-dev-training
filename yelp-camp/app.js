@@ -32,7 +32,7 @@ seedDB();
 app.use( require( "express-session" )( {
   secret: "This will be amazing if we let it be",
   resave: false,
-  saveUnitialized: false;
+  saveUnitialized: false
 } ) );
 app.use( passport.initialize() );
 app.use( passport.session() );
