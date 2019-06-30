@@ -19,7 +19,7 @@ app.use( bodyParser.urlencoded( {
   extended: true
 } ) );
 app.set( "view engine", "ejs" );
-app.get( "/", function ( req, res ) {
+app.get( "/", function( req, res ) {
   res.redirect( "/campgrounds" );
 } );
 app.use( express.static( __dirname + "/public" ) );
@@ -46,8 +46,8 @@ passport.deserializeUser( User.deserializeUser() );
 
 
 //INDEX - Restful route shows all campgrounds
-app.get( "/campgrounds", function ( req, res ) {
-  Campground.find( {}, function ( error, allCampgrounds ) {
+app.get( "/campgrounds", function( req, res ) {
+  Campground.find( {}, function( error, allCampgrounds ) {
     if ( error ) {
       console.log( error );
     } else {
@@ -59,7 +59,7 @@ app.get( "/campgrounds", function ( req, res ) {
 } );
 
 //CREATE - Restful route create new campground
-app.post( "/campgrounds", function ( req, res ) {
+app.post( "/campgrounds", function( req, res ) {
   // get data from form and add back to campground array
   const name = req.body.name;
   const image = req.body.image;
@@ -69,7 +69,7 @@ app.post( "/campgrounds", function ( req, res ) {
     image: image,
     description: description
   }
-  Campground.create( newCampground, function ( error, newlyCreated ) {
+  Campground.create( newCampground, function( error, newlyCreated ) {
     if ( error ) {
       console.log( error );
     } else {
@@ -81,14 +81,14 @@ app.post( "/campgrounds", function ( req, res ) {
 } );
 
 //NEW - Restful route shows form to create new campground
-app.get( "/campgrounds/new", function ( req, res ) {
+app.get( "/campgrounds/new", function( req, res ) {
   res.render( "campgrounds/new" );
 } );
 
 
 //SHOW - Restful route which shows a specific campground
-app.get( "/campgrounds/:id", function ( req, res ) {
-  Campground.findById( req.params.id ).populate( "comments" ).exec( function ( error, foundCampground ) {
+app.get( "/campgrounds/:id", function( req, res ) {
+  Campground.findById( req.params.id ).populate( "comments" ).exec( function( error, foundCampground ) {
     if ( error ) {
       console.log( error );
     } else {
@@ -103,9 +103,9 @@ app.get( "/campgrounds/:id", function ( req, res ) {
 // Comment routes
 // ============================================================================
 
-app.get( "/campgrounds/:id/comments/new", function ( req, res ) {
+app.get( "/campgrounds/:id/comments/new", function( req, res ) {
   Campground.findById( req.params.id,
-    function ( error, campground ) {
+    function( error, campground ) {
       if ( error ) {
         console.log( error );
       } else {
@@ -116,14 +116,14 @@ app.get( "/campgrounds/:id/comments/new", function ( req, res ) {
     } );
 } );
 
-app.post( "/campgrounds/:id/comments", function ( req, res ) {
+app.post( "/campgrounds/:id/comments", function( req, res ) {
   Campground.findById( req.params.id,
-    function ( error, campground ) {
+    function( error, campground ) {
       if ( error ) {
         console.log( error );
         res.redirect( "/campgrounds/:id/" );
       } else {
-        Comment.create( req.body.comment, function ( error, comment ) {
+        Comment.create( req.body.comment, function( error, comment ) {
           if ( error ) {
             console.log( error );
           } else {
@@ -141,42 +141,47 @@ app.post( "/campgrounds/:id/comments", function ( req, res ) {
 // ============================================================================
 
 //show reg form
-app.get( "/register", function ( req, res ) {
+app.get( "/register", function( req, res ) {
   res.render( "register" );
 } );
 
 //handel sign up
-app.post( "/register", function ( req, res ) {
-  var newUser = new User( {
+app.post( "/register", function( req, res ) {
+  const newUser = new User( {
     username: req.body.username
   } );
-  User.register( newUser, req.body.password, function ( err, user ) {
+  User.register( newUser, req.body.password, function( err, user ) {
     if ( err ) {
       console.log( err );
       return res.render( "register" );
     }
-    passport.authenticate( "local" )( req, res, function () {
+    passport.authenticate( "local" )( req, res, function() {
       res.redirect( "/campgrounds" );
     } );
   } );
 } );
 
 // show login form
-
-app.get( "/login", function ( req, res ) {
+app.get( "/login", function( req, res ) {
   res.render( "login" );
 } );
+
+// handle login logic
+app.post( "/login", passport.authenticate( "local", {
+  successRedirect: "/campgrounds",
+  failureRedirect: "/login"
+} ), function( req, res ) {} );
 
 // ============================================================================
 // Catch all routes
 // ============================================================================
 
-app.get( "*", function ( req, res ) {
+app.get( "*", function( req, res ) {
   res.send( "404 page not found" );
 } );
 
 // Tells express to listen for requests (Start server)
 
-app.listen( 3001, function () {
+app.listen( 3001, function() {
   console.log( "The server started on http://localhost:3001/" );
 } );
