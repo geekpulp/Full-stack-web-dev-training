@@ -1,6 +1,9 @@
 "strict"
+/**
+ * `An array of key value pairs for CPU types`
+ * @type {Array}
+ */
 
-//Creates a Dictionary for CPUs
 const cpus = [ {
     type: "CoreI3",
     brand: "Intel"
@@ -31,8 +34,19 @@ const cpus = [ {
   }
 ]
 
-//Sets the score to 0 at the start of the quiz
+/**
+ * The games score
+ * @type {Number}
+ */
+
 let score = 0;
+
+/**
+ * Prompts the user to answer questions based on the contents of the CPUs const
+ * @method
+ * @param  {[type]} cpu key value pairs of cpu types and brands
+ * @return {[type]}     [description]
+ */
 
 //Steps through each value the dictonary asking a question of each
 cpus.forEach( function( cpu ) {
