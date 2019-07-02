@@ -44,6 +44,12 @@ passport.deserializeUser( User.deserializeUser() );
 // Routes
 // ============================================================================
 
+/**
+ * The Campgrounds Get Route
+ * @method
+ * @param  {[type]} req An object containing information about the HTTP request that raised the event.
+ * @param  {[type]} res An object to send back the HTTP response
+ */
 
 //INDEX - Restful route shows all campgrounds
 app.get( "/campgrounds", function( req, res ) {
@@ -57,6 +63,13 @@ app.get( "/campgrounds", function( req, res ) {
     }
   } );
 } );
+
+/**
+ * The Campgrounds Post Route
+ * @method
+ * @param  {[type]} req An object containing information about the HTTP request that raised the event.
+ * @param  {[type]} res An object to send back the HTTP response
+ */
 
 //CREATE - Restful route create new campground
 app.post( "/campgrounds", function( req, res ) {
@@ -80,11 +93,31 @@ app.post( "/campgrounds", function( req, res ) {
 
 } );
 
+
+/**
+ * New campgroud route
+ *
+ * @method
+ *
+ * @param  {[type]} req An object containing information about the HTTP request that raised the event.
+ * @param  {[type]} res An object to send back the HTTP response
+ */
+
 //NEW - Restful route shows form to create new campground
 app.get( "/campgrounds/new", function( req, res ) {
   res.render( "campgrounds/new" );
 } );
 
+
+/**
+ * [description]
+ *
+ * @method
+ *
+ * @param  {[type]} req An object containing information about the HTTP request that raised the event.
+ * @param  {[type]} res An object to send back the HTTP response
+ *
+ */
 
 //SHOW - Restful route which shows a specific campground
 app.get( "/campgrounds/:id", function( req, res ) {
@@ -103,6 +136,16 @@ app.get( "/campgrounds/:id", function( req, res ) {
 // Comment routes
 // ============================================================================
 
+/**
+ * add new commnets route
+ *
+ * @method
+ *
+ * @param  {[type]} req An object containing information about the HTTP request that raised the event.
+ * @param  {[type]} res An object to send back the HTTP response
+ *
+ */
+
 app.get( "/campgrounds/:id/comments/new", function( req, res ) {
   Campground.findById( req.params.id,
     function( error, campground ) {
@@ -115,6 +158,16 @@ app.get( "/campgrounds/:id/comments/new", function( req, res ) {
       }
     } );
 } );
+
+/**
+ * Comments post route for creating new comments
+ *
+ * @method
+ *
+ * @param  {[type]} req An object containing information about the HTTP request that raised the event.
+ * @param  {[type]} res An object to send back the HTTP response
+ *
+ */
 
 app.post( "/campgrounds/:id/comments", function( req, res ) {
   Campground.findById( req.params.id,
