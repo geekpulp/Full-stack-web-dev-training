@@ -146,7 +146,7 @@ app.get( "/campgrounds/:id", function( req, res ) {
  *
  */
 
-app.get( "/campgrounds/:id/comments/new", function( req, res ) {
+app.get( "/campgrounds/:id/comments/new", isLoggedIn, function( req, res ) {
   Campground.findById( req.params.id,
     function( error, campground ) {
       if ( error ) {
@@ -169,7 +169,7 @@ app.get( "/campgrounds/:id/comments/new", function( req, res ) {
  *
  */
 
-app.post( "/campgrounds/:id/comments", function( req, res ) {
+app.post( "/campgrounds/:id/comments", isLoggedIn, function( req, res ) {
   Campground.findById( req.params.id,
     function( error, campground ) {
       if ( error ) {
@@ -192,6 +192,16 @@ app.post( "/campgrounds/:id/comments", function( req, res ) {
 // ============================================================================
 // Auth routes
 // ============================================================================
+
+/**
+ * Register route
+ *
+ * @method
+ *
+ * @param  {[type]} req An object containing information about the HTTP request that raised the event.
+ * @param  {[type]} res An object to send back the HTTP response
+ *
+ */
 
 //show reg form
 app.get( "/register", function( req, res ) {
@@ -225,13 +235,35 @@ app.post( "/login", passport.authenticate( "local", {
   failureRedirect: "/login"
 } ), function( req, res ) {} );
 
+/**
+ * Logout route
+ *
+ * @method
+ *
+ * @param  {[type]} req An object containing information about the HTTP request that raised the event.
+ * @param  {[type]} res An object to send back the HTTP response
+ *
+ */
+app.get( "/logout", function( req, res ) {
+  req.logout();
+  res.redirect( "/campgrounds" );
+} );
+
 // ============================================================================
-// Catch all routes
+// Catch all route
 // ============================================================================
 
 app.get( "*", function( req, res ) {
   res.send( "404 page not found" );
 } );
+
+
+function isLoggedIn( req, res, next ) {
+  if ( req.isAuthenticated() ) {
+    return next();
+  }
+  res.redirect( "/login" );
+}
 
 // Tells express to listen for requests (Start server)
 
