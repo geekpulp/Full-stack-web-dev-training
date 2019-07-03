@@ -4,8 +4,11 @@ const express = require( "express" ),
   app = express(),
   bodyParser = require( 'body-parser' ),
   mongoose = require( "mongoose" ),
+  passport = require( "passport" ),
+  LocalStrategy = require( "passport-local" ),
   Campground = require( "./models/campground" ),
   Comment = require( "./models/comment" ),
+  User = require( "./models/user" ),
   seedDB = require( "./seeds" )
 
 mongoose.connect( "mongodb://localhost/yelp-camp", {
@@ -22,6 +25,36 @@ app.get( "/", function( req, res ) {
 app.use( express.static( __dirname + "/public" ) );
 seedDB();
 
+// ============================================================================
+// Passport configuration
+// ============================================================================
+
+app.use( require( "express-session" )( {
+  secret: "This will be amazing if we let it be",
+  resave: false,
+  saveUnitialized: false
+} ) );
+app.use( passport.initialize() );
+app.use( passport.session() );
+app.use( function( req, res, next ) {
+  res.locals.currentUser = req.user;
+  next();
+} );
+passport.use( new LocalStrategy( User.authenticate() ) );
+passport.serializeUser( User.serializeUser() );
+passport.deserializeUser( User.deserializeUser() );
+
+// ============================================================================
+// Routes
+// ============================================================================
+
+/**
+ * The Campgrounds Get Route
+ * @method
+ * @param  {[type]} req An object containing information about the HTTP request that raised the event.
+ * @param  {[type]} res An object to send back the HTTP response
+ */
+
 //INDEX - Restful route shows all campgrounds
 app.get( "/campgrounds", function( req, res ) {
   Campground.find( {}, function( error, allCampgrounds ) {
@@ -34,6 +67,13 @@ app.get( "/campgrounds", function( req, res ) {
     }
   } );
 } );
+
+/**
+ * The Campgrounds Post Route
+ * @method
+ * @param  {[type]} req An object containing information about the HTTP request that raised the event.
+ * @param  {[type]} res An object to send back the HTTP response
+ */
 
 //CREATE - Restful route create new campground
 app.post( "/campgrounds", function( req, res ) {
@@ -57,11 +97,31 @@ app.post( "/campgrounds", function( req, res ) {
 
 } );
 
+
+/**
+ * New campgroud route
+ *
+ * @method
+ *
+ * @param  {[type]} req An object containing information about the HTTP request that raised the event.
+ * @param  {[type]} res An object to send back the HTTP response
+ */
+
 //NEW - Restful route shows form to create new campground
 app.get( "/campgrounds/new", function( req, res ) {
   res.render( "campgrounds/new" );
 } );
 
+
+/**
+ * [description]
+ *
+ * @method
+ *
+ * @param  {[type]} req An object containing information about the HTTP request that raised the event.
+ * @param  {[type]} res An object to send back the HTTP response
+ *
+ */
 
 //SHOW - Restful route which shows a specific campground
 app.get( "/campgrounds/:id", function( req, res ) {
@@ -76,11 +136,21 @@ app.get( "/campgrounds/:id", function( req, res ) {
   } );
 } );
 
-//================
-//COMMENTS SUB ROUTES
-//================
+// ============================================================================
+// Comment routes
+// ============================================================================
 
-app.get( "/campgrounds/:id/comments/new", function( req, res ) {
+/**
+ * add new commnets route
+ *
+ * @method
+ *
+ * @param  {[type]} req An object containing information about the HTTP request that raised the event.
+ * @param  {[type]} res An object to send back the HTTP response
+ *
+ */
+
+app.get( "/campgrounds/:id/comments/new", isLoggedIn, function( req, res ) {
   Campground.findById( req.params.id,
     function( error, campground ) {
       if ( error ) {
@@ -93,7 +163,17 @@ app.get( "/campgrounds/:id/comments/new", function( req, res ) {
     } );
 } );
 
-app.post( "/campgrounds/:id/comments", function( req, res ) {
+/**
+ * Comments post route for creating new comments
+ *
+ * @method
+ *
+ * @param  {[type]} req An object containing information about the HTTP request that raised the event.
+ * @param  {[type]} res An object to send back the HTTP response
+ *
+ */
+
+app.post( "/campgrounds/:id/comments", isLoggedIn, function( req, res ) {
   Campground.findById( req.params.id,
     function( error, campground ) {
       if ( error ) {
@@ -113,10 +193,81 @@ app.post( "/campgrounds/:id/comments", function( req, res ) {
     } );
 } );
 
+// ============================================================================
+// Auth routes
+// ============================================================================
+
+/**
+ * Register route
+ *
+ * @method
+ *
+ * @param  {[type]} req An object containing information about the HTTP request that raised the event.
+ * @param  {[type]} res An object to send back the HTTP response
+ *
+ */
+
+//show reg form
+app.get( "/register", function( req, res ) {
+  res.render( "register" );
+} );
+
+//handel sign up
+app.post( "/register", function( req, res ) {
+  const newUser = new User( {
+    username: req.body.username
+  } );
+  User.register( newUser, req.body.password, function( err, user ) {
+    if ( err ) {
+      console.log( err );
+      return res.render( "register" );
+    }
+    passport.authenticate( "local" )( req, res, function() {
+      res.redirect( "/campgrounds" );
+    } );
+  } );
+} );
+
+// show login form
+app.get( "/login", function( req, res ) {
+  res.render( "login" );
+} );
+
+// handle login logic - This uses the passport middleware to handel the authentication logic
+app.post( "/login", passport.authenticate( "local", {
+  successRedirect: "/campgrounds",
+  failureRedirect: "/login"
+} ), function( req, res ) {} );
+
+/**
+ * Logout route
+ *
+ * @method
+ *
+ * @param  {[type]} req An object containing information about the HTTP request that raised the event.
+ * @param  {[type]} res An object to send back the HTTP response
+ *
+ */
+app.get( "/logout", function( req, res ) {
+  req.logout();
+  res.redirect( "/campgrounds" );
+} );
+
+// ============================================================================
+// Catch all route
+// ============================================================================
 
 app.get( "*", function( req, res ) {
   res.send( "404 page not found" );
 } );
+
+
+function isLoggedIn( req, res, next ) {
+  if ( req.isAuthenticated() ) {
+    return next();
+  }
+  res.redirect( "/login" );
+}
 
 // Tells express to listen for requests (Start server)
 
