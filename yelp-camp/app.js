@@ -5,9 +5,8 @@ const express = require( "express" ),
   bodyParser = require( 'body-parser' ),
   mongoose = require( "mongoose" ),
   passport = require( "passport" ),
+  methodOverride = require( "method-override" ),
   LocalStrategy = require( "passport-local" ),
-  Campground = require( "./models/campground" ),
-  Comment = require( "./models/comment" ),
   User = require( "./models/user" ),
   seedDB = require( "./seeds" )
 
@@ -42,6 +41,7 @@ app.use( function( req, res, next ) {
   res.locals.currentUser = req.user;
   next();
 } );
+app.use( methodOverride( "_method" ) );
 passport.use( new LocalStrategy( User.authenticate() ) );
 passport.serializeUser( User.serializeUser() );
 passport.deserializeUser( User.deserializeUser() );
