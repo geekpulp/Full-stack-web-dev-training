@@ -5,8 +5,8 @@ const express = require( "express" ),
   Campground = require( "../models/campground" );
 
 //INDEX - Restful route shows all campgrounds
-router.get( "/", function( req, res ) {
-  Campground.find( {}, function( error, allCampgrounds ) {
+router.get( "/", function ( req, res ) {
+  Campground.find( {}, function ( error, allCampgrounds ) {
     if ( error ) {
       console.log( error );
     } else {
@@ -18,7 +18,7 @@ router.get( "/", function( req, res ) {
 } );
 
 //CREATE - Restful route create new campground
-router.post( "/", isLoggedIn, function( req, res ) {
+router.post( "/", isLoggedIn, function ( req, res ) {
   // get data from form and add back to campground array
   const name = req.body.name;
   const image = req.body.image;
@@ -33,7 +33,7 @@ router.post( "/", isLoggedIn, function( req, res ) {
     description: description,
     author: author
   }
-  Campground.create( newCampground, function( error, newlyCreated ) {
+  Campground.create( newCampground, function ( error, newlyCreated ) {
     if ( error ) {
       console.log( error );
     } else {
@@ -45,14 +45,14 @@ router.post( "/", isLoggedIn, function( req, res ) {
 } );
 
 //NEW - Restful route shows form to create new campground
-router.get( "/new", isLoggedIn, function( req, res ) {
+router.get( "/new", isLoggedIn, function ( req, res ) {
   res.render( "campgrounds/new" );
 } );
 
 
 //SHOW - Restful route which shows a specific campground
-router.get( "/:id", function( req, res ) {
-  Campground.findById( req.params.id ).populate( "comments" ).exec( function( error, foundCampground ) {
+router.get( "/:id", function ( req, res ) {
+  Campground.findById( req.params.id ).populate( "comments" ).exec( function ( error, foundCampground ) {
     if ( error ) {
       console.log( error );
     } else {
@@ -64,8 +64,8 @@ router.get( "/:id", function( req, res ) {
 } );
 
 // EDIT - campground route
-router.get( "/:id/edit", isLoggedIn, function( req, res ) {
-  Campground.findById( req.params.id, function( err, foundCampground ) {
+router.get( "/:id/edit", isLoggedIn, function ( req, res ) {
+  Campground.findById( req.params.id, function ( err, foundCampground ) {
     if ( err ) {
       res.redirect( "/campgrounds" )
     } else {
@@ -78,9 +78,9 @@ router.get( "/:id/edit", isLoggedIn, function( req, res ) {
 
 // UPDATE - campground route
 
-router.put( "/:id", function( req, res ) {
+router.put( "/:id", function ( req, res ) {
   Campground.findByIdAndUpdate( req.params.id, req.body.campground,
-    function( err, updatedCampground ) {
+    function ( err, updatedCampground ) {
       if ( err ) {
         res.redirect( "/campgrounds" );
       } else {
@@ -89,10 +89,10 @@ router.put( "/:id", function( req, res ) {
     } );
 } );
 
-// DESTORY - campground route
+// DESTROY - campground route
 
-router.delete( "/:id", function( req, res ) {
-  Campground.findByIdAndRemove( req.params.id, function( err ) {
+router.delete( "/:id", isLoggedIn, function ( req, res ) {
+  Campground.findByIdAndRemove( req.params.id, function ( err ) {
     if ( err ) {
       res.redirect( "/campgrounds" );
     } else {

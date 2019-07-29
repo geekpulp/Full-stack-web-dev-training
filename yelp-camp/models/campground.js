@@ -18,6 +18,16 @@ const campgroundSchema = new mongoose.Schema( {
   } ]
 } );
 
+// also removed comments connected to a deleted campground
+const Comment = require( './comment' );
+campgroundSchema.pre( 'remove', async function () {
+  await Comment.remove( {
+    _id: {
+      $in: this.comments
+    }
+  } );
+} );
+
 const Campground = mongoose.model( "Campground", campgroundSchema );
 
 module.exports = Campground;
