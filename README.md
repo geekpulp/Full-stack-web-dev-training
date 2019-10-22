@@ -43,7 +43,7 @@ The course covers:
 * Section 35: YelpCamp: Adding Authentication
 * Section 36: YelpCamp: Cleaning Up
 * Section 37: YelpCamp: Update and Destroy
-* Section 38: YelpCamp: UI Improvements *<- I am up to here*
+* Section 38: YelpCamp: UI Improvements **<- I am up to here**
 * Section 39: Git and Github
 * Section 40: Deploying
 * Section 41: JavaScript: The Tricky Stuff
